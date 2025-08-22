@@ -3,8 +3,13 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables')
+// For build-time, use placeholder values if env vars are missing
+const fallbackUrl = supabaseUrl || 'https://placeholder.supabase.co'
+const fallbackKey = supabaseKey || 'placeholder-anon-key'
+
+// Only throw error in browser/runtime if vars are actually missing
+if (typeof window !== 'undefined' && (!supabaseUrl || !supabaseKey)) {
+  console.error('Missing Supabase environment variables')
 }
 
 const createCustomStorage = () => {
@@ -65,7 +70,7 @@ const createCustomStorage = () => {
   }
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey, {
+export const supabase = createClient(fallbackUrl, fallbackKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
