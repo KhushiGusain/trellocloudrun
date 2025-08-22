@@ -1,36 +1,57 @@
-# Use the official Node.js 18 runtime as base image
-FROM node:18-alpine
+# Multi-stage build for production optimization
+FROM node:18-alpine AS base
 
-# Set the working directory in the container
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+# Copy package files
+COPY package.json package-lock.json* ./
+# Install dependencies based on the preferred package manager
+RUN npm ci
 
-# Install dependencies
-RUN npm ci --only=production
-
-# Copy the rest of the application code
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the Next.js application
-RUN npm run build
-
-# Expose the port the app runs on
-EXPOSE 3000
-
-# Set environment variable for production
+# Set environment to production
 ENV NODE_ENV=production
 
-# Create a non-root user to run the application
+# Build the application
+RUN npm run build
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Create nextjs user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Change ownership of the .next directory to the nextjs user
-RUN chown -R nextjs:nodejs .next
+# Copy built application
+COPY --from=builder /app/public ./public
 
-# Switch to the non-root user
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
 USER nextjs
 
-# Command to run the application
-CMD ["npm", "start"]
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Use the standalone server
+CMD ["node", "server.js"]
