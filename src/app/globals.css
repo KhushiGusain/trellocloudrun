@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+:root {
+  /* New Color Scheme */
+  /* Primary Backgrounds */
+  --color-app-background: #F5F6F8;
+  --color-sidebar-background: #FFFFFF;
+  
+  /* Lists/Cards */
+  --color-card-background: #FFFFFF;
+  --color-card-border: #E0E0E0;
+  
+  /* Text Colors */
+  --color-text-primary: #212121;
+  --color-text-secondary: #757575;
+  --color-text-muted: #9E9E9E;
+  
+  /* List Header Pastel Colors - Lighter/More Transparent */
+  --color-list-lavender: rgba(237, 231, 246, 0.5);
+  --color-list-pink: rgba(253, 226, 228, 0.5);
+  --color-list-mint: rgba(224, 247, 250, 0.5);
+  --color-list-yellow: rgba(255, 249, 196, 0.5);
+  --color-list-blue: rgba(227, 242, 253, 0.5);
+  --color-list-green: rgba(232, 245, 232, 0.5);
+  
+  /* Accent Colors */
+  --color-due-overdue: #E53935;
+  --color-due-normal: #9E9E9E;
+  
+  /* Label Colors */
+  --color-label-blue: #42A5F5;
+  --color-label-green: #66BB6A;
+  --color-label-orange: #FFA726;
+  --color-label-purple: #AB47BC;
+  
+    /* Sidebar */
+  --color-sidebar-active: #42A5F5;
+  --color-sidebar-inactive: #424242;
+
+  /* Legacy support */
+  --color-primary: #42A5F5;
+  --color-primary-hover: #2196F3;
+  --color-navy: #212121;
+  --color-muted: #757575;
+  --color-background: #F5F6F8;
+  --color-surface: #FFFFFF;
+  --color-error: #E53935;
+  --color-success: #66BB6A;
+  --color-border: #E0E0E0;
+  --color-hover: #E3F2FD;
+
+  --background: #F5F6F8;
+  --foreground: #212121;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-app-background);
+  color: var(--color-text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-navy);
+}

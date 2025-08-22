@@ -1,0 +1,5 @@
+[33m49a0bf5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m fix: Resolve activity sidebar display name error
+[33mc1b7ff0[m fix: Improve real-time updates for labels and assignees
+[33m838b554[m feat: Add comprehensive real-time updates
+[33mca0ed29[m Add real-time updates with SSE
+[33me2fb5f9[m feat: Add board member invitation system and improve UX - Add board member invitation functionality - Fix board creation and loading issues - Improve card/list creation with loading states - Fix member filtering and drag-and-drop
