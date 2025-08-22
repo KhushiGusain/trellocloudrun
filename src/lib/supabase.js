@@ -4,8 +4,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
 // For build-time, use placeholder values if env vars are missing
-const fallbackUrl = supabaseUrl || 'https://placeholder.supabase.co'
-const fallbackKey = supabaseKey || 'placeholder-anon-key'
+const fallbackUrl = supabaseUrl || 'https://ihbibcrwwpizsrfpznuz.supabase.co'
+const fallbackKey = supabaseKey || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImloYmliY3J3d3BpenNyZnB6bnV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU3ODA2MTcsImV4cCI6MjA3MTM1NjYxN30.G5iiOeiXbDSN0Dojjl0PFVi98aEkq_NqzbRNndSKn14'
 
 // Only throw error in browser/runtime if vars are actually missing
 if (typeof window !== 'undefined' && (!supabaseUrl || !supabaseKey)) {
